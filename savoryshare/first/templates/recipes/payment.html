@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Payment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #d6a9d6;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 500px;
+            margin: 80px auto;
+            background: #f5e1f5;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .payment-options {
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input[type="text"], input[type="number"], input[type="tel"] {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+            border-radius: 6px;
+            border: 1px solid #aaa;
+        }
+        .pay-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            background: linear-gradient(to right, #a64ca6, #6a1b9a);
+            color: white;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .pay-btn:hover {
+            background: linear-gradient(to right, #6a1b9a, #4a148c);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Payment Options</h2>
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="payment-options">
+                <input type="radio" name="method" checked> Credit & Debit 
+                <img src="{% static 'visa.png' %}" width="40">
+                <img src="{% static 'mastercard.png' %}" width="40">
+                <br>
+                <input type="radio" name="method"> MasterPass 
+                <img src="{% static 'masterpass.png' %}" width="40">
+            </div>
+
+            <label>Card Description:</label>
+            <input type="text" name="bank" placeholder="E.g. Standard Bank" required>
+
+            <label>Name on Card:</label>
+            <input type="text" name="name" required>
+
+            <label>Card Number:</label>
+            <input type="tel" name="card_number" placeholder="1234 5678 9101 1213" required>
+
+            <label>CVV:</label>
+            <input type="number" name="cvv" required>
+
+            <label>Expiry Year:</label>
+            <input type="text" name="expiry" required>
+
+            <label>Amount (ZAR):</label>
+            <input type="text" name="amount" value="150" readonly>
+
+            <button type="submit" class="pay-btn">Pay</button>
+        </form>
+    </div>
+</body>
+</html>

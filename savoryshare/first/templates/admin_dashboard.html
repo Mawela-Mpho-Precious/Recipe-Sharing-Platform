@@ -1,0 +1,261 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Savory Share</title>
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f4f8;
+            color: #333;
+        }
+
+        /* --- Header --- */
+        header {
+            width: 100%;
+            background-color: #ffffff;
+            padding: 15px 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header nav a.logo {
+            font-weight: bold;
+            color: #007BFF;
+            text-decoration: none;
+            font-size: 1.6em;
+        }
+        header nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+        }
+        header nav ul li {
+            margin-left: 20px;
+        }
+        header nav ul li a {
+            color: #333;
+            text-decoration: none;
+            font-size: 1em;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        header nav ul li a:hover {
+            color: #007BFF;
+        }
+        header nav ul li.welcome-message {
+            color: #555;
+            font-style: italic;
+            font-size: 0.95em;
+        }
+
+        /* --- Messages --- */
+        .messages {
+            list-style-type: none;
+            padding: 0;
+            margin: 20px auto;
+            width: 90%;
+            max-width: 960px;
+        }
+        .messages li {
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            font-weight: 500;
+            text-align: center;
+        }
+        .messages .success { background-color: #d4edda; color: #155724; }
+        .messages .error { background-color: #f8d7da; color: #721c24; }
+        .messages .info { background-color: #d1ecf1; color: #0c5460; }
+        .messages .warning { background-color: #fff3cd; color: #856404; }
+
+        /* --- Main Content --- */
+        main {
+            padding: 30px 20px;
+            max-width: 1200px;
+            margin: 100px auto 40px;
+        }
+        h1 {
+            color: #0056b3;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.2em;
+        }
+        p.subtitle {
+            text-align: center;
+            font-size: 1.1em;
+            margin-bottom: 40px;
+            color: #555;
+        }
+
+        /* --- Dashboard Grid --- */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+        }
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+        }
+        .card i {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            color: #007BFF;
+        }
+        .card h3 {
+            font-size: 1.2em;
+            margin: 10px 0;
+            color: #333;
+        }
+        .card p {
+            font-size: 0.95em;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        .card a {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.9em;
+            transition: background-color 0.3s ease;
+        }
+        .card a:hover {
+            background-color: #0056b3;
+        }
+
+        /* --- Report Buttons --- */
+        .report-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .report-buttons .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #007BFF;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.9em;
+            transition: background-color 0.3s ease;
+        }
+        .report-buttons .btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* --- Footer --- */
+        footer {
+            width: 100%;
+            text-align: center;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 -2px 6px rgba(0,0,0,0.05);
+        }
+        footer p {
+            margin: 0;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="{% url 'home' %}" class="logo">Savory Share</a>
+            <ul>
+                {% if user.is_authenticated %}
+                    <li class="welcome-message">Welcome, {{ user.username }}!</li>
+                    {% if user.is_staff %}
+                        <li><a href="{% url 'admin_dashboard' %}">Dashboard</a></li>
+                    {% endif %}
+                    <li><a href="{% url 'recipes' %}">Recipes</a></li>
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
+                    <li><a href="{% url 'signup' %}">Sign Up</a></li>
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main -->
+    <main>
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <h1>Admin Dashboard</h1>
+        <p class="subtitle">Manage users, recipes, and other site content easily.</p>
+
+        <div class="dashboard-grid">
+            <div class="card">
+                <i class="fa-solid fa-user-shield"></i>
+                <h3>Users</h3>
+                <p>View and manage registered users.</p>
+                <a href="{% url 'admin:auth_user_changelist' %}">Manage Users</a>
+            </div>
+
+            <div class="card">
+                <i class="fa-solid fa-utensils"></i>
+                <h3>Recipes</h3>
+                <p>Review, approve, or reject submitted recipes.</p>
+                <a href="{% url 'admin:first_recipe_changelist' %}">Manage Recipes</a>
+            </div>
+
+            <div class="card">
+                <i class="fa-solid fa-clipboard-check"></i>
+                <h3>Site Admin</h3>
+                <p>Go to the full Django Admin panel.</p>
+                <a href="{% url 'admin:index' %}">Django Admin</a>
+            </div>
+
+            <div class="card">
+                <i class="fa-solid fa-chart-line"></i>
+                <h3>Reports</h3>
+                <p>Download site activity and recipe reports.</p>
+                <div class="report-buttons">
+                    <a href="{% url 'download_users_excel' %}" class="btn">Download Excel</a>
+                    <a href="{% url 'download_recipes_pdf' %}" class="btn">Download Recipes PDF</a>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Savory Share</p>
+    </footer>
+</body>
+</html>
+

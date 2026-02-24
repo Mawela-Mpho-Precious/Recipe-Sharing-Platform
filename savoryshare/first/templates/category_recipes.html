@@ -1,0 +1,230 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ category|title }} Recipes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f8f8;
+      color: #333;
+    }
+
+    header {
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 10px 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      flex-wrap: nowrap;
+    }
+
+    .logo {
+      font-size: 1.4em;
+      font-weight: bold;
+      color: #007BFF;
+      text-decoration: none;
+      margin-right: 20px;
+      white-space: nowrap;
+    }
+
+    .username {
+      font-weight: bold;
+      color: #333;
+      white-space: nowrap;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li {
+      display: inline-block;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #333;
+      font-weight: normal;
+      white-space: nowrap;
+    }
+
+    nav ul li a:hover {
+      color: #007BFF;
+    }
+
+    main {
+      padding: 20px;
+      max-width: 1200px;
+      margin: 90px auto 40px; /* space for header */
+    }
+
+    h1 {
+      font-size: 2em;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    /* Search bar */
+    .search-container {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .search-container input[type="text"] {
+      padding: 10px;
+      width: 300px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .search-container button {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 8px;
+      background: #007BFF;
+      color: white;
+      cursor: pointer;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+    }
+
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .card-title {
+      padding: 1rem;
+      font-weight: bold;
+      font-size: 1rem;
+      text-align: center;
+    }
+
+    .empty {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 1.2rem;
+      color: #888;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      nav ul {
+        width: 100%;
+        flex-direction: column;
+        padding-top: 10px;
+      }
+
+      nav ul li {
+        padding: 5px 0;
+      }
+
+      .nav-left {
+        width: 100%;
+        justify-content: space-between;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="nav-left">
+      <a href="{% url 'home' %}" class="logo">Savory Share</a>
+      {% if user.is_authenticated %}
+        <span class="username">{{ user.username }}</span>
+      {% endif %}
+    </div>
+    <ul>
+      <li><a href="{% url 'recipes' %}">Recipes</a></li>
+      <li><a href="{% url 'add_recipe' %}">Add Recipe</a></li>
+      <li><a href="{% url 'favorites' %}">Favorites</a></li>
+      <li><a href="{% url 'collections' %}">Collections</a></li>
+      {% if not user.is_authenticated %}
+        <li><a href="{% url 'login' %}">Login</a></li>
+        <li><a href="{% url 'signup' %}">Sign Up</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <h1>{{ category|title }} Recipes</h1>
+
+  <!-- 🔍 Search bar -->
+  <div class="search-container">
+    <form method="get" action="">
+      <input type="text" name="q" placeholder="Search recipes..." value="{{ request.GET.q }}">
+      <button type="submit">Search</button>
+    </form>
+  </div>
+
+  {% if recipes %}
+    <div class="grid">
+      {% for recipe in recipes %}
+        <div class="card">
+          <a href="{% url 'recipe_detail' recipe.id %}">
+            <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
+            <div class="card-title">{{ recipe.title }}</div>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty">No recipes found in this category.</div>
+  {% endif %}
+</main>
+
+</body>
+</html>
+
+

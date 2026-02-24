@@ -1,0 +1,13 @@
+
+{% block content %}
+    <h2>Search Results for "{{ query }}"</h2>
+    <ul>
+        {% for recipe in recipes %}
+            <li><a href="{% url 'recipe_detail' recipe.id %}">{{ recipe.title }}</a></li>
+        {% empty %}
+            <li>No recipes found for "{{ query }}".</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+

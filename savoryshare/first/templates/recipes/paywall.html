@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Recipe Locked</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f7e9f7; text-align: center; padding: 60px; }
+        .box { background: white; padding: 30px; border-radius: 10px; display: inline-block; box-shadow: 0 3px 6px rgba(0,0,0,0.2); }
+        h2 { color: #6a1b9a; }
+        a button {
+            margin-top: 20px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            background: #6a1b9a;
+            color: white;
+            cursor: pointer;
+        }
+        a button:hover { background: #4a148c; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h2>{{ recipe.title }} is locked 🔒</h2>
+        <p>You need to pay <b>R150</b> to unlock this recipe.</p>
+        <a href="{% url 'pay_for_recipe' recipe.id %}">
+            <button>Pay Now</button>
+        </a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,165 @@
+{% load static %}
+{% load recipe_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ recipe.title }}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        body {
+            background: linear-gradient(to bottom right, #1a1a2e, #3f0071);
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .nav { background-color: #2c003e; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+        .nav .logo { font-size: 1.8rem; font-weight: bold; color: violet; }
+        .nav .user { color: pink; font-size: 1.2rem; }
+        .container { max-width: 900px; margin: 2rem auto; background: rgba(255, 255, 255, 0.05); padding: 2rem; border-radius: 20px; box-shadow: 0 0 25px rgba(0,0,0,0.6); backdrop-filter: blur(10px); }
+        .recipe-image { width: 100%; max-height: 350px; object-fit: cover; border-radius: 15px; margin-bottom: 1.5rem; border: 2px solid violet; }
+        h1 { font-size: 2.5rem; color: violet; margin-bottom: 1rem; text-align: center; }
+        .recipe-details p { font-size: 1.2rem; line-height: 1.8; margin-bottom: 1rem; }
+        .recipe-details strong { color: pink; }
+        .back-link { display: inline-block; margin-top: 2rem; padding: 0.6rem 1.2rem; background-color: violet; color: black; text-decoration: none; border-radius: 6px; font-weight: bold; transition: all 0.3s ease; }
+        .back-link:hover { background-color: pink; color: white; }
+        .favorite-btn { font-size: 2rem; border: none; background: none; cursor: pointer; margin-top: 2rem; }
+        .favorite-btn.liked { color: red; }
+        .favorite-btn.not-liked { color: white; }
+        .favorite-msg { margin-top: 1rem; text-align: center; color: pink; }
+
+        /* Rating styles */
+        .rating-box { margin-top: 2rem; padding: 1rem; background: rgba(255,255,255,0.08); border-radius: 12px; text-align: center; }
+        .rating-box h3 { color: violet; margin-bottom: 0.5rem; }
+
+        .stars {
+            display: inline-flex;
+            flex-direction: row-reverse;
+            justify-content: center;
+        }
+
+        .stars input {
+            display: none;
+        }
+
+        .stars label {
+            font-size: 2rem;
+            color: #444;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .stars input:checked ~ label,
+        .stars label:hover,
+        .stars label:hover ~ label {
+            color: gold;
+        }
+
+        .avg-rating { margin-top: 1rem; color: pink; font-weight: bold; }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+</head>
+<body>
+
+<div class="nav">
+    <div class="logo">Savory Share</div>
+    <div class="user">Welcome, {{ user.username }}</div>
+</div>
+
+<div class="container">
+
+    {% if recipe.image %}
+        <img src="{{ recipe.image.url }}" alt="{{ recipe.title }} Image" class="recipe-image">
+    {% endif %}
+
+    <h1>{{ recipe.title }}</h1>
+
+    <div class="recipe-details">
+        <p><strong>Category:</strong> {{ recipe.category.name }}</p>
+        <p><strong>Serves:</strong> {{ recipe.serves }}</p>
+        <p><strong>Cook Time:</strong> {{ recipe.cook_time }}</p>
+        <p><strong>Ingredients:</strong><br> {{ recipe.ingredients|linebreaks }}</p>
+        <p><strong>Instructions:</strong><br> {{ recipe.instructions|linebreaks }}</p>
+    </div>
+
+    <a href="{% url 'category_recipes' recipe.category.name %}" class="back-link">← Back to Category</a>
+
+    <!-- Favorite Button -->
+    {% if user.is_authenticated %}
+        <div style="text-align:center;">
+            <button id="favorite-btn"
+                    class="favorite-btn {% if recipe|is_favorite:user %}liked{% else %}not-liked{% endif %}"
+                    data-recipe-id="{{ recipe.id }}">
+                {% if recipe|is_favorite:user %}❤️{% else %}🤍{% endif %}
+            </button>
+            <div id="favorite-msg" class="favorite-msg"></div>
+        </div>
+    {% else %}
+        <p class="favorite-msg">
+            <a href="{% url 'login' %}" style="color:pink; text-decoration:underline;">Login</a> to add this recipe to your favorites.
+        </p>
+    {% endif %}
+
+    <!-- Rating System -->
+    <div class="rating-box">
+        <h3>⭐ Rate this Recipe</h3>
+        {% if user.is_authenticated %}
+            <form method="post">
+                {% csrf_token %}
+                <div class="stars">
+                    {% for value, label in form.fields.rating.choices reversed %}
+                        <input type="radio" id="star{{ value }}" name="rating" value="{{ value }}" {% if form.initial.rating == value %}checked{% endif %}>
+                        <label for="star{{ value }}">★</label>
+                    {% endfor %}
+                </div>
+                <button type="submit" class="back-link" style="margin-top:1rem;">Submit Rating</button>
+            </form>
+        {% else %}
+            <p><a href="{% url 'login' %}" style="color:pink; text-decoration:underline;">Login</a> to rate this recipe.</p>
+        {% endif %}
+        <div class="avg-rating">
+            Average Rating: {{ avg_rating }}
+        </div>
+    </div>
+
+</div>
+
+<script>
+    $(document).ready(function(){
+        // Favorite Button
+        $('#favorite-btn').click(function(){
+            var btn = $(this);
+            var recipeId = btn.data('recipe-id');
+
+            $.ajax({
+                url: "{% url 'toggle_favorite' 0 %}".replace('0', recipeId),
+                type: 'POST',
+                data: {'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                success: function(response){
+                    if(btn.hasClass('liked')){
+                        btn.removeClass('liked').addClass('not-liked').text('🤍');
+                        $('#favorite-msg').text('Removed from favorites.');
+                    } else {
+                        btn.removeClass('not-liked').addClass('liked').text('❤️');
+                        $('#favorite-msg').text('Added to favorites!');
+                    }
+                },
+                error: function(){
+                    $('#favorite-msg').text('Error! Please try again.');
+                }
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+

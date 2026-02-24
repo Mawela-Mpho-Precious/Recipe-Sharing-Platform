@@ -1,0 +1,13 @@
+<h1>Pending Recipes</h1>
+{% for recipe in recipes %}
+    <div style="margin-bottom: 20px;">
+        <h3>{{ recipe.title }}</h3>
+        <img src="{{ recipe.image.url }}" width="300"><br>
+        <a href="{% url 'approve_recipe' recipe.id %}">✅ Approve</a>
+        <form method="post" action="{% url 'reject_recipe' recipe.id %}">
+            {% csrf_token %}
+            <input type="text" name="reason" placeholder="Reason for rejection" required>
+            <button type="submit">Reject ❌</button>
+        </form>
+    </div>
+{% endfor %}

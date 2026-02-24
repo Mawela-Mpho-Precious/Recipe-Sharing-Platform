@@ -1,0 +1,216 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Savory Share</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f8f8;
+      color: #333;
+    }
+
+    /* HEADER */
+    header {
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 10px 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      flex-wrap: nowrap;
+    }
+
+    .logo {
+      font-size: 1.4em;
+      font-weight: bold;
+      color: #007BFF;
+      text-decoration: none;
+      margin-right: 20px;
+      white-space: nowrap;
+    }
+
+    .username {
+      font-weight: bold;
+      color: #333;
+      white-space: nowrap;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li {
+      display: inline-block;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #333;
+      font-weight: normal;
+      white-space: nowrap;
+    }
+
+    nav ul li a:hover {
+      color: #007BFF;
+    }
+
+    /* MAIN CONTENT */
+    main {
+      padding: 20px;
+      max-width: 1200px;
+      margin: 90px auto 40px; /* adjusted for fixed header */
+    }
+
+    h1 {
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .category-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .category-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .category-card:hover img {
+      transform: scale(1.05);
+    }
+
+    .category-label {
+      position: absolute;
+      bottom: 10px;
+      left: 15px;
+      font-size: 1.5em;
+      color: white;
+      text-shadow: 1px 1px 3px black;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #fff;
+      margin-top: 40px;
+      box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    /* RESPONSIVE FIXES */
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      nav ul {
+        width: 100%;
+        flex-direction: column;
+        padding-top: 10px;
+      }
+
+      nav ul li {
+        padding: 5px 0;
+      }
+
+      .nav-left {
+        width: 100%;
+        justify-content: space-between;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="nav-left">
+      <a href="{% url 'home' %}" class="logo">Savory Share</a>
+      {% if user.is_authenticated %}
+        <span class="username">{{ user.username }}</span>
+      {% endif %}
+    </div>
+    <ul>
+      <li><a href="{% url 'recipes' %}">Recipes</a></li>
+      <li><a href="{% url 'add_recipe' %}">Add Recipe</a></li>
+      <li><a href="{% url 'favorites' %}">Favorites</a></li>
+      <li><a href="{% url 'collections' %}">Collections</a></li>
+      {% if not user.is_authenticated %}
+        <li><a href="{% url 'login' %}">Login</a></li>
+        <li><a href="{% url 'signup' %}">Sign Up</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <h1>Browse Recipes by Category</h1>
+  <div class="category-grid">
+    <a href="{% url 'category_recipes' 'dessert' %}" class="category-card">
+      <img src="{% static 'images/dessert.jpg' %}" alt="Dessert">
+      <div class="category-label">Dessert</div>
+    </a>
+    <a href="{% url 'category_recipes' 'lunch' %}" class="category-card">
+      <img src="{% static 'images/lunch.jpg' %}" alt="Lunch">
+      <div class="category-label">Lunch</div>
+    </a>
+    <a href="{% url 'category_recipes' 'vegan' %}" class="category-card">
+      <img src="{% static 'images/vegan.jpg' %}" alt="Vegan">
+      <div class="category-label">Vegan</div>
+    </a>
+    <a href="{% url 'category_recipes' 'dinner' %}" class="category-card">
+      <img src="{% static 'images/dinner.jpg' %}" alt="Dinner">
+      <div class="category-label">Dinner</div>
+    </a>
+    <a href="{% url 'category_recipes' 'breakfast' %}" class="category-card">
+      <img src="{% static 'images/breakfast.jpg' %}" alt="Breakfast">
+      <div class="category-label">Breakfast</div>
+    </a>
+    <a href="{% url 'category_recipes' 'bakery' %}" class="category-card">
+      <img src="{% static 'images/bakery.jpg' %}" alt="Bakery">
+      <div class="category-label">Bakery</div>
+    </a>
+  </div>
+</main>
+
+

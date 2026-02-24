@@ -1,0 +1,13 @@
+{% for recipe in recipes %}
+    <div>
+        <h3>{{ recipe.title }}</h3>
+        <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}" width="300">
+        {% if recipe.locked %}
+            <p>This recipe is locked. Pay to unlock.</p>
+        {% else %}
+            <p>{{ recipe.ingredients|truncatechars:100 }}</p>
+            <a href="{% url 'favorite_recipe' recipe.id %}">❤️ Favorite</a>
+        {% endif %}
+    </div>
+{% endfor %}
+

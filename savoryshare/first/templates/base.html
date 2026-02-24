@@ -1,0 +1,43 @@
+<!-- templates/base.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Savory Share</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="{% url 'home' %}">Savory Share</a>
+            <ul>
+                <li><a href="{% url 'recipes' %}">Recipes</a></li>
+                <li><a href="{% url 'add_recipe' %}">Add Recipe</a></li>
+                <li><a href="{% url 'favorites' %}">Favorites</a></li>
+                <li><a href="{% url 'collections' %}">Collections</a></li>
+                {% if user.is_authenticated %}
+                    <li>Hello, {{ user.username }}</li>
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                    <li><a href="{% url 'signup' %}">Sign Up</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        <form method="get" action="{% url 'search_recipes' %}">
+            <input type="text" name="q" placeholder="Search recipes...">
+            <button type="submit">Search</button>
+        </form>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Savory Share</p>
+    </footer>
+</body>
+</html>

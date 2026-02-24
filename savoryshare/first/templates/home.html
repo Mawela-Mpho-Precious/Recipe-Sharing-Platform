@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Savory Share</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            /* The background image is a crucial part. You'll need to save the blurred recipe dashboard image
+               from the provided picture into your static folder, e.g., 'static/images/recipe_dashboard_background.jpg'
+               or replace it with a similar suitable image. */
+            background: url("{% static 'images/background.jpg' %}") no-repeat center center fixed;
+            background-size: cover;
+            color: black; /* Changed text color to BLACK as requested */
+            display: flex;
+            flex-direction: column; /* Changed to column to stack elements vertically */
+            justify-content: space-between; /* To push "Savory Share" to top-left and content to center */
+            align-items: center;
+            min-height: 100vh;
+        }
+        .header {
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box; /* Include padding in the element's total width and height */
+            text-align: left; /* Align "Savory Share" to the left */
+        }
+        .header h1 {
+            /* Changed font-family for less cursiveness */
+            font-family: 'Segoe Script', 'Comic Sans MS', cursive; 
+            font-size: 2.5em;
+            margin: 0; /* Remove default margin */
+            font-weight: bold;
+        }
+        .main-content {
+            flex-grow: 1; /* Allows this div to take up available space, pushing buttons down if needed */
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Center the text and buttons vertically */
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+        .main-content h2 {
+            font-size: 3em; /* Increased font size for "Cook, Share, Savor Together" */
+            margin: 10px 0 30px 0; /* Add more space below the main heading */
+            font-weight: normal;
+            line-height: 1.2; /* Adjust line height for better readability */
+        }
+        .buttons {
+                margin-top: 20px; /* Space above the buttons */
+            display: flex;
+            justify-content: center;
+            gap: 20px; /* Space between buttons */
+        }
+        .btn {
+            padding: 15px 30px; /* Increased padding for larger buttons */
+            font-size: 1.5em; /* Increased font size for button text */
+            border: none;
+            border-radius: 8px; /* Slightly more rounded corners */
+            cursor: pointer;
+            background-color: #007BFF; /* Blue color from the image */
+            color: white;
+            transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+        }
+        .btn:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Savory Share</h1>
+    </div>
+    <div class="main-content">
+        <h2>Cook, Share, Savor Together</h2>
+        <div class="buttons">
+            <a href="{% url 'signup' %}"><button class="btn">SIGN UP</button></a>
+            <a href="{% url 'login' %}"><button class="btn">LOGIN</button></a>
+        </div>
+    </div>
+</body>
+</html>
