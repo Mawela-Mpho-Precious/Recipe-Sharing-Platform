@@ -68,8 +68,8 @@ After login, users can:
 - Add a new recipe
 - View collection (Approved, Pending, Rejected)
 - Access Favorites section
-![Category](static/images/category1.png)
-![Category](static/images/category2.png)
+![Category](static/category1.png)
+![Category](static/category2.png)
 
 ---
 
@@ -78,16 +78,16 @@ After login, users can:
 - Displays recipe image, title, and description
 - Shows premium lock icon for paid recipes
 - Heart icon to favorite recipes
-![Recipe](static/images/recipe1.png)
-![Recipe](static/images/recipe2.png)
+![Recipe](static/recipe1.png)
+![Recipe](static/recipe2.png)
 
 Premium recipes:
 - Require payment to unlock
 - Show confirmation message after payment
 - “Go to Recipe” button appears after successful payment
-![Lock](static/images/lock1.png)
-![Lock](static/images/lock2.png)
-![Lock](static/images/lock3.png)
+![Lock](static/lock1.png)
+![Lock](static/lock2.png)
+![Lock](static/lock3.png)
 
 ---
 
@@ -96,7 +96,7 @@ Premium recipes:
 - Users can save recipes by clicking the heart icon
 - Saved recipes appear in Favorites section
 - Makes it easy to access loved recipes later
-![Fav](static/images/fav.png)
+![Fav](static/fav.png)
 
 
 ---
@@ -122,8 +122,8 @@ Rejected recipes:
 - Can be edited and resubmitted
 
 ---
-![add](static/images/add.png)
-![add](static/images/add2.png)
+![add](static/add.png)
+![add](static/add2.png)
 ## Edit Recipe Page
 
 Users can:
@@ -135,8 +135,8 @@ Users can:
 ---
 ## Collection
 -users are able to see their submmitted recipes, rejected recipes, and pending approval recipes.
-![collection](static/images/collection.png)
-![collection](static/images/collection2.png)
+![collection](static/collection.png)
+![collection](static/collection2.png)
 
 ## Admin Dashboard
 
@@ -147,12 +147,12 @@ Admin can:
 - Manage categories
 - Monitor platform activity
 -Download a spreadsheet of recipes
-![admin](static/images/admin1.png)
-![admin](static/images/admin2.png)
-![admin](static/images/admin3.png)
-![admin](static/images/admin4.png)
-![admin](static/images/admin5.png)
-![admin](static/images/admin6.png)
+![admin](static/admin1.png)
+![admin](static/admin2.png)
+![admin](static/admin3.png)
+![admin](static/admin4.png)
+![admin](static/admin5.png)
+![admin](static/admin6.png)
 
 ---
 
