@@ -96,7 +96,7 @@ Premium recipes:
 - Users can save recipes by clicking the heart icon
 - Saved recipes appear in Favorites section
 - Makes it easy to access loved recipes later
-![Fav](static/fav.png)
+![Fav](static/fav.jpeg)
 
 
 ---
@@ -147,12 +147,12 @@ Admin can:
 - Manage categories
 - Monitor platform activity
 -Download a spreadsheet of recipes
-![admin](static/admin1.png)
-![admin](static/admin2.png)
-![admin](static/admin3.png)
-![admin](static/admin4.png)
-![admin](static/admin5.png)
-![admin](static/admin6.png)
+![admin](static/admin1.jpeg)
+![admin](static/admin2.jpeg)
+![admin](static/admin3.jpeg)
+![admin](static/admin4.jpeg)
+![admin](static/admin5.jpeg)
+![admin](static/admin6.jpeg)
 
 ---
 
