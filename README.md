@@ -35,7 +35,7 @@ The graphical user interface of SavoryShare is designed to be clean, modern, and
 - Sign Up button for new users
 - Login button for existing users
 - Simple and welcoming layout
-![Home Page](static/images/home.png)
+![Home Page](static/home.png)
 ---
 
 ## Sign Up Page
@@ -48,14 +48,14 @@ Users can register securely by providing:
 Features:
 - Secure authentication
 - Email verification support
-![Sign Up](static/images/signup.png)
+![Sign Up](static/signup.png)
 ---
 
 ##  Login Page
 
 - Secure login using email and password
 - Redirects to dashboard after successful login
-![Log In](static/images/login.png)
+![Log In](static/login.png)
 
 ---
 
